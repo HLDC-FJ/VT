@@ -16,6 +16,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Management;
 
 
 namespace TEST
@@ -127,7 +128,8 @@ namespace TEST
 
         private void SerialPortSerch()
         {
-            string[] portlist = SerialPort.GetPortNames();
+            //string[] portlist = SerialPort.GetPortNames();
+            string[] portlist = GetDeviceNames();
             this.comboBox1.Items.Clear();
             this.comboBox1.Text = "";
             foreach (string PortName in portlist)
@@ -141,6 +143,63 @@ namespace TEST
             }
         }
 
+        public static string[] GetDeviceNames()
+        {
+            var deviceNameList = new System.Collections.ArrayList();
+            var check = new System.Text.RegularExpressions.Regex("(COM[1-9][0-9]?[0-9]?)");
+
+            ManagementClass mcPnPEntity = new ManagementClass("Win32_PnPEntity");
+            ManagementObjectCollection manageObjCol = mcPnPEntity.GetInstances();
+
+            //全てのPnPデバイスを探索しシリアル通信が行われるデバイスを随時追加する
+            foreach (ManagementObject manageObj in manageObjCol)
+            {
+                //Nameプロパティを取得
+                var namePropertyValue = manageObj.GetPropertyValue("Name");
+                if (namePropertyValue == null)
+                {
+                    continue;
+                }
+
+                //Nameプロパティ文字列の一部が"(COM1)～(COM999)"と一致するときリストに追加"
+                string name = namePropertyValue.ToString();
+                if (check.IsMatch(name))
+                {
+                    // InziniousのModuleでは2系統のシリアルが見える。
+                    // Standardの記載があるものだけを取得する
+                    // 直接接続を行う場合は表示されないのでケアする必要あり。
+                    if (SerialPort.GetPortNames().Length > 1)
+                    {
+                        if (name.Contains("Standard") == true)
+                        {
+                            string aaa = name.Substring(name.IndexOf('(') + 1, (name.LastIndexOf(')') - name.IndexOf('(')) - 1);
+                            deviceNameList.Add(aaa);
+                        }
+                    }
+                    else
+                    {
+                        string aaa = name.Substring(name.IndexOf('(') + 1, (name.LastIndexOf(')') - name.IndexOf('(')) - 1);
+                        deviceNameList.Add(aaa);
+                    }
+                }
+            }
+
+            //戻り値作成
+            if (deviceNameList.Count > 0)
+            {
+                string[] deviceNames = new string[deviceNameList.Count];
+                int index = 0;
+                foreach (var name in deviceNameList)
+                {
+                    deviceNames[index++] = name.ToString();
+                }
+                return deviceNames;
+            }
+            else
+            {
+                return null;
+            }
+        }
 
 
 
@@ -162,8 +221,10 @@ namespace TEST
             chart1.ChartAreas[cName1].AxisY.LabelStyle.Enabled = false;
             chart1.ChartAreas[cName1].AxisX.IsMarginVisible = false;
             chart1.ChartAreas[cName1].AxisY.IsMarginVisible = false;
-            chart1.ChartAreas[cName1].AxisY.Maximum = 150;
-            chart1.ChartAreas[cName1].AxisY.Minimum = 0;
+            //chart1.ChartAreas[cName1].AxisY.Maximum = 150;
+            //chart1.ChartAreas[cName1].AxisY.Minimum = 0;
+            chart1.ChartAreas[cName1].AxisY.Maximum = 400;
+            chart1.ChartAreas[cName1].AxisY.Minimum = -50;
             chart1.ChartAreas[cName1].AxisY.Interval = 10;
 
             chart1.ChartAreas[cName1].AxisX.LabelStyle.Enabled = false;
@@ -205,8 +266,14 @@ namespace TEST
 
             for (int i=0; i<=cCnt; i++)
             {
-                chart1.Series[cName1].Points.AddXY(i, 0);
-                chart1.Series[cName2].Points.AddXY(i, 0);
+                if (checkBox2.Checked == true)
+                {
+                    chart1.Series[cName1].Points.AddXY(i, 0);
+                }
+                if (checkBox3.Checked == true)
+                {
+                    chart1.Series[cName2].Points.AddXY(i, 0);
+                }
                 chart1.Series[cName3].Points.AddXY(i, 0);
                 chart1.Series[cName4].Points.AddXY(i, 0);
             }
@@ -276,16 +343,28 @@ namespace TEST
         {
             for (int i = 1; i <= cCnt; i++)
             {
-                chart1.Series[cName1].Points[i - 1].YValues = chart1.Series[cName1].Points[i].YValues;
-                chart1.Series[cName2].Points[i - 1].YValues = chart1.Series[cName2].Points[i].YValues;
+                if (checkBox2.Checked == true)
+                {
+                    chart1.Series[cName1].Points[i - 1].YValues = chart1.Series[cName1].Points[i].YValues;
+                }
+                if (checkBox3.Checked == true)
+                {
+                    chart1.Series[cName2].Points[i - 1].YValues = chart1.Series[cName2].Points[i].YValues;
+                }
                 chart1.Series[cName3].Points[i - 1].YValues = chart1.Series[cName3].Points[i].YValues;
                 chart1.Series[cName4].Points[i - 1].YValues = chart1.Series[cName4].Points[i].YValues;
             }
-            chart1.Series[cName1].Points.RemoveAt(cCnt);
-            chart1.Series[cName1].Points.AddXY(cCnt, val1);
+            if (checkBox2.Checked == true)
+            {
+                chart1.Series[cName1].Points.RemoveAt(cCnt);
+                chart1.Series[cName1].Points.AddXY(cCnt, val1);
+            }
 
-            chart1.Series[cName2].Points.RemoveAt(cCnt);
-            chart1.Series[cName2].Points.AddXY(cCnt, val2);
+            if (checkBox3.Checked == true)
+            {
+                chart1.Series[cName2].Points.RemoveAt(cCnt);
+                chart1.Series[cName2].Points.AddXY(cCnt, val2);
+            }
 
             chart1.Series[cName3].Points.RemoveAt(cCnt);
             chart1.Series[cName3].Points.AddXY(cCnt, val3);
