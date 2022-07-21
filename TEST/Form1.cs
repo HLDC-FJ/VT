@@ -132,14 +132,17 @@ namespace TEST
             string[] portlist = GetDeviceNames();
             this.comboBox1.Items.Clear();
             this.comboBox1.Text = "";
-            foreach (string PortName in portlist)
+            if (portlist != null)
             {
-                comboBox1.Items.Add(PortName);
-            }
+                foreach (string PortName in portlist)
+                {
+                    comboBox1.Items.Add(PortName);
+                }
 
-            if (comboBox1.Items.Count > 0)
-            {
-                comboBox1.SelectedIndex = 0;
+                if (comboBox1.Items.Count > 0)
+                {
+                    comboBox1.SelectedIndex = 0;
+                }
             }
         }
 
