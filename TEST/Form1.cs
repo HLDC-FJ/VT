@@ -381,6 +381,7 @@ namespace TEST
         private void DataOutPut()
         {
             double dummyH, dummyB;
+            double bodytmp = 0;
 
             if (Dflg == true)
             {
@@ -393,6 +394,16 @@ namespace TEST
 
                     label_Heart.Text = Vital.hr.ToString("0.00");   // 心拍数表示
                     label_Breath.Text = Vital.br.ToString("0.00");  // 呼吸数表示
+                    if (Vital.hr > 40)
+                    {
+                        bodytmp = (Vital.hr + 579.5) / 18;
+                        label_TMP.Text = bodytmp.ToString("0.00");
+
+                    }
+                    else
+                    {
+                        label_TMP.Text = "";
+                    }
 
 
                     // ** チャート表示データ作成 **
@@ -1015,5 +1026,18 @@ namespace TEST
 
         #endregion
 
+        private void checkBox4_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox4.Checked == true)
+            {
+                label19.Visible = true;
+                label_TMP.Visible = true;
+            }
+            else
+            {
+                label19.Visible = false;
+                label_TMP.Visible = false;
+            }
+        }
     }
 }

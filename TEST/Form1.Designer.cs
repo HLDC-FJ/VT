@@ -54,6 +54,8 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.button7 = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label_TMP = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.label_Breath = new System.Windows.Forms.Label();
             this.label_Heart = new System.Windows.Forms.Label();
@@ -109,6 +111,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -289,6 +292,8 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.label_TMP);
+            this.groupBox4.Controls.Add(this.label19);
             this.groupBox4.Controls.Add(this.chart1);
             this.groupBox4.Controls.Add(this.label_Breath);
             this.groupBox4.Controls.Add(this.label_Heart);
@@ -301,6 +306,28 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Sensor";
             // 
+            // label_TMP
+            // 
+            this.label_TMP.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label_TMP.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_TMP.Location = new System.Drawing.Point(56, 165);
+            this.label_TMP.Name = "label_TMP";
+            this.label_TMP.Size = new System.Drawing.Size(74, 28);
+            this.label_TMP.TabIndex = 10;
+            this.label_TMP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label_TMP.Visible = false;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(6, 165);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(46, 23);
+            this.label19.TabIndex = 9;
+            this.label19.Text = "Tenp";
+            this.label19.Visible = false;
+            // 
             // chart1
             // 
             this.chart1.BackColor = System.Drawing.SystemColors.Control;
@@ -310,7 +337,7 @@
             this.chart1.ChartAreas.Add(chartArea3);
             legend3.Name = "Legend1";
             this.chart1.Legends.Add(legend3);
-            this.chart1.Location = new System.Drawing.Point(126, 12);
+            this.chart1.Location = new System.Drawing.Point(136, 12);
             this.chart1.Name = "chart1";
             series3.ChartArea = "ChartArea1";
             series3.IsVisibleInLegend = false;
@@ -318,7 +345,7 @@
             series3.Name = "Series1";
             series3.SmartLabelStyle.Enabled = false;
             this.chart1.Series.Add(series3);
-            this.chart1.Size = new System.Drawing.Size(413, 181);
+            this.chart1.Size = new System.Drawing.Size(401, 181);
             this.chart1.TabIndex = 8;
             this.chart1.TabStop = false;
             this.chart1.Text = "chart1";
@@ -326,20 +353,20 @@
             // label_Breath
             // 
             this.label_Breath.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label_Breath.Font = new System.Drawing.Font("Arial", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_Breath.Location = new System.Drawing.Point(13, 144);
+            this.label_Breath.Font = new System.Drawing.Font("Arial", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_Breath.Location = new System.Drawing.Point(35, 118);
             this.label_Breath.Name = "label_Breath";
-            this.label_Breath.Size = new System.Drawing.Size(117, 47);
+            this.label_Breath.Size = new System.Drawing.Size(96, 36);
             this.label_Breath.TabIndex = 7;
             this.label_Breath.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label_Heart
             // 
             this.label_Heart.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label_Heart.Font = new System.Drawing.Font("Arial", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_Heart.Location = new System.Drawing.Point(13, 43);
+            this.label_Heart.Font = new System.Drawing.Font("Arial", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_Heart.Location = new System.Drawing.Point(34, 43);
             this.label_Heart.Name = "label_Heart";
-            this.label_Heart.Size = new System.Drawing.Size(117, 50);
+            this.label_Heart.Size = new System.Drawing.Size(96, 36);
             this.label_Heart.TabIndex = 6;
             this.label_Heart.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -347,7 +374,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Arial Narrow", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(5, 115);
+            this.label6.Location = new System.Drawing.Point(6, 89);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(102, 23);
             this.label6.TabIndex = 5;
@@ -488,7 +515,7 @@
             series4.YValuesPerPoint = 2;
             series4.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
             this.chart2.Series.Add(series4);
-            this.chart2.Size = new System.Drawing.Size(539, 398);
+            this.chart2.Size = new System.Drawing.Size(543, 398);
             this.chart2.TabIndex = 1;
             this.chart2.TabStop = false;
             this.chart2.Text = "chart2";
@@ -553,6 +580,7 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.checkBox4);
             this.groupBox6.Controls.Add(this.checkBox3);
             this.groupBox6.Controls.Add(this.checkBox2);
             this.groupBox6.Location = new System.Drawing.Point(630, 111);
@@ -940,6 +968,17 @@
             this.label3.Text = "X :";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Location = new System.Drawing.Point(3, 56);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(52, 16);
+            this.checkBox4.TabIndex = 2;
+            this.checkBox4.Text = "Temp";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1052,6 +1091,9 @@
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label_TMP;
+        private System.Windows.Forms.CheckBox checkBox4;
     }
 }
 
