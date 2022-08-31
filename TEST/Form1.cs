@@ -47,6 +47,8 @@ namespace TEST
         public int commandNo = 0;
         public string TextData = "";
 
+        public string OutputFolder = System.AppDomain.CurrentDomain.BaseDirectory;
+        public string logFileName = "";
 
         public struct Rader
         {
@@ -427,17 +429,6 @@ namespace TEST
                     DataPoint dp = new DataPoint(workX, Pos.y);
                     dp.Label = "ID-0";
                     chart2.Series[RName].Points.Add(dp);
-/*
-                    if (Pos.x == 0)
-                    {
-                        chart2.Series[RName].Points.AddXY(0.0001, Pos.y);
-                    }
-                    else
-                    {
-                        chart2.Series[RName].Points.AddXY(Pos.x, Pos.y);
-
-                    }
-*/
                 }
 
 
@@ -445,6 +436,18 @@ namespace TEST
                 TextData = TextData.Replace("\n", "\r\n");
                 textBox1.AppendText(TextData);
                 TextData = "";
+
+                if ((button2.Enabled==false) && (disnableToolStripMenuItem.Text == "Enable"))
+                {
+                    string dat = "";
+                    dat = Pos.x.ToString("0.00") + ",";
+                    dat = dat + Pos.y.ToString("0.00") + ",";
+                    dat = dat + Vital.hr.ToString("0.00") + ",";
+                    dat = dat + Vital.br.ToString("0.00") + ",";
+                    dat = dat + label_TMP.Text;
+                    logWrite(dat);
+                }
+
             }
 
         }
@@ -854,7 +857,16 @@ namespace TEST
 
 
 
+        private void logWrite(string dat)
+        {
+            FileStream FS_log = new FileStream(logFileName, FileMode.Append, FileAccess.Write);
+            StreamWriter SR_log = new StreamWriter(FS_log, Encoding.GetEncoding("UTF-8"));
 
+            SR_log.WriteLine(dat);
+
+            SR_log.Close();
+            FS_log.Close();
+        }
 
 
 
@@ -1037,6 +1049,43 @@ namespace TEST
             {
                 label19.Visible = false;
                 label_TMP.Visible = false;
+            }
+        }
+
+        #region logファイル保存先設定
+        private void outputSettingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fol = new FolderBrowserDialog();
+            fol.Description = "log出力先フォルダを指定してください";
+            fol.RootFolder = Environment.SpecialFolder.Desktop;
+            if (OutputFolder != "")
+            {
+                fol.SelectedPath = OutputFolder;
+            }
+            fol.ShowNewFolderButton = true;
+
+            if (fol.ShowDialog(this) == DialogResult.OK)
+            {
+                OutputFolder = fol.SelectedPath;
+            }
+        }
+        #endregion
+
+        private void disnableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (disnableToolStripMenuItem.Text == "Disnable")
+            {
+                disnableToolStripMenuItem.Text = "Enable";
+                string d = DateTime.Now.ToString("yyyy/MM/dd,HH:mm:ss");
+                d = d.Replace("/", "");
+                d = d.Replace(":", "");
+                d = d.Replace(",", "_");
+                logFileName = OutputFolder + "HRS-R8A-V_" + d + ".csv";
+
+            }
+            else
+            {
+                disnableToolStripMenuItem.Text = "Disnable";
             }
         }
     }
