@@ -17,12 +17,19 @@ using System.Net.NetworkInformation;
 
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Management;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
 namespace TEST
 {
     public partial class Form1 : Form
     {
+        private System.Net.Sockets.UdpClient udpClient = null;
+        public bool SensorFlg = false;          // センサ動作フラグ
+        public string ConsoleData = "";
+        public bool RxDataReceive = false;
+
         Encoding encSjis = Encoding.GetEncoding("shift-jis");
 
         private delegate void Delegate_write(string data);
@@ -49,6 +56,9 @@ namespace TEST
 
         public string OutputFolder = System.AppDomain.CurrentDomain.BaseDirectory;
         public string logFileName = "";
+
+
+
 
         public struct Rader
         {
@@ -89,6 +99,46 @@ namespace TEST
         public Rader.Param Param = new Rader.Param();
 
 
+        #region UDP Task
+        private void ReceiveCallback(IAsyncResult ar)
+        {
+            System.Net.Sockets.UdpClient udp =
+                (System.Net.Sockets.UdpClient)ar.AsyncState;
+
+            //非同期受信を終了する
+            System.Net.IPEndPoint remoteEP = null;
+            byte[] rcvBytes;
+            try
+            {
+                rcvBytes = udp.EndReceive(ar, ref remoteEP);
+            }
+            catch (System.Net.Sockets.SocketException ex)
+            {
+                Console.WriteLine("受信エラー({0}/{1})",
+                    ex.Message, ex.ErrorCode);
+                return;
+            }
+            catch (ObjectDisposedException ex)
+            {
+                //すでに閉じている時は終了
+                Console.WriteLine("Socketは閉じられています。");
+                return;
+            }
+
+            //データを文字列に変換する
+            string rcvMsg = System.Text.Encoding.UTF8.GetString(rcvBytes);
+
+            BeginInvoke(new Delegate_write(serialRxDTask), new Object[] { rcvMsg });
+
+            if (SensorFlg == true)
+            {
+                ConsoleData = ConsoleData + rcvMsg;
+                RxDataReceive = true;
+            }
+
+            udp.BeginReceive(ReceiveCallback, udp);
+        }
+        #endregion
 
 
         private void DataClear()
@@ -1087,6 +1137,28 @@ namespace TEST
             {
                 disnableToolStripMenuItem.Text = "Disnable";
             }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            if (udpClient != null)
+            {
+                udpClient.Close();
+                udpClient.Dispose();
+                udpClient = null;
+                return;
+            }
+
+            //StartInitTask();
+
+            //UdpClientを作成し、ポート番号(4001)にバインドする
+            System.Net.IPEndPoint localEP = new System.Net.IPEndPoint(
+                System.Net.IPAddress.Any, int.Parse(textBox3.Text));
+
+            udpClient = new System.Net.Sockets.UdpClient(localEP);
+
+            //非同期的なデータ受信を開始する
+            udpClient.BeginReceive(ReceiveCallback, udpClient);
         }
     }
 }
