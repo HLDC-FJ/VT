@@ -38,6 +38,8 @@
             System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.button9 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -120,8 +122,6 @@
             this.helpHToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.versionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.button9 = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -154,6 +154,24 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "COM Port";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(87, 66);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(45, 19);
+            this.textBox3.TabIndex = 5;
+            this.textBox3.Text = "4001";
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(6, 64);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(75, 23);
+            this.button9.TabIndex = 4;
+            this.button9.Text = "Network";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // button8
             // 
@@ -328,7 +346,6 @@
             this.label_TMP.Size = new System.Drawing.Size(74, 28);
             this.label_TMP.TabIndex = 10;
             this.label_TMP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label_TMP.Visible = false;
             // 
             // label19
             // 
@@ -339,7 +356,6 @@
             this.label19.Size = new System.Drawing.Size(50, 23);
             this.label19.TabIndex = 9;
             this.label19.Text = "Temp";
-            this.label19.Visible = false;
             // 
             // chart1
             // 
@@ -405,6 +421,7 @@
             // 
             // label_y
             // 
+            this.label_y.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label_y.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label_y.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_y.Location = new System.Drawing.Point(514, 592);
@@ -415,6 +432,7 @@
             // 
             // label_x
             // 
+            this.label_x.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label_x.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.label_x.Font = new System.Drawing.Font("Arial", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_x.Location = new System.Drawing.Point(364, 593);
@@ -445,6 +463,7 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.pictureBox1.ErrorImage = null;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
@@ -457,6 +476,9 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Location = new System.Drawing.Point(-1, 27);
@@ -489,6 +511,9 @@
             // 
             // chart2
             // 
+            this.chart2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.chart2.BackColor = System.Drawing.SystemColors.Control;
             this.chart2.BackImageTransparentColor = System.Drawing.Color.White;
             this.chart2.BackSecondaryColor = System.Drawing.Color.White;
@@ -606,6 +631,8 @@
             // checkBox4
             // 
             this.checkBox4.AutoSize = true;
+            this.checkBox4.Checked = true;
+            this.checkBox4.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox4.Location = new System.Drawing.Point(3, 56);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(52, 16);
@@ -1048,24 +1075,6 @@
             this.versionToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.versionToolStripMenuItem.Text = "Version";
             // 
-            // button9
-            // 
-            this.button9.Location = new System.Drawing.Point(6, 64);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(75, 23);
-            this.button9.TabIndex = 4;
-            this.button9.Text = "Network";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click);
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(87, 66);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(45, 19);
-            this.textBox3.TabIndex = 5;
-            this.textBox3.Text = "4005";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1076,8 +1085,6 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(882, 767);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(882, 767);
             this.Name = "Form1";
